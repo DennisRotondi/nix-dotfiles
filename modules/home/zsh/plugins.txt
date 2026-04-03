@@ -1,0 +1,38 @@
+#!/bin/zsh
+
+# completions
+mattmc3/ez-compinit
+zsh-users/zsh-completions kind:fpath path:src
+
+# tab completion via fzf
+Aloxaf/fzf-tab
+
+# prompt
+romkatv/powerlevel10k path:powerlevel10k.zsh-theme
+
+# git aliases and interactive git with fzf
+wfxr/forgit
+davidde/git
+
+# history search with up/down arrows
+zsh-users/zsh-history-substring-search
+
+# auto-close quotes and brackets
+hlissner/zsh-autopair
+
+# remind you of existing aliases
+MichaelAquilina/zsh-you-should-use
+
+# cross-platform clipboard, archive extraction, colored man pages, sudo, command-not-found
+ohmyzsh/ohmyzsh path:lib/clipboard.zsh
+ohmyzsh/ohmyzsh path:plugins/extract
+ohmyzsh/ohmyzsh path:plugins/colored-man-pages
+ohmyzsh/ohmyzsh path:plugins/command-not-found
+ohmyzsh/ohmyzsh path:plugins/sudo
+
+# shell startup benchmarking
+romkatv/zsh-bench kind:path
+
+# syntax highlighting and autosuggestions (load last)
+zdharma-continuum/fast-syntax-highlighting
+zsh-users/zsh-autosuggestions

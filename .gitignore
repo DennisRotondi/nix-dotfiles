@@ -1,0 +1,29 @@
+# Nix build results
+result
+result-*
+
+# Nix development
+.direnv/
+.envrc
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Editor and IDE
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Personal p10k config — generated locally via `p10k configure`, not shared
+modules/home/zsh/.p10k.zsh
+configfiles/
