@@ -47,6 +47,9 @@ nix run home-manager -- switch --flake .#yourname
 # Subsequent rebuilds
 home-manager switch --flake .#yourname
 
+# If unfree packages are needed:
+NIXPKGS_ALLOW_UNFREE=1 home-manager switch --flake .#yourname --impure
+
 # Set zsh as default shell if needed
 chsh -s $(which zsh)
 ```
@@ -78,6 +81,30 @@ modules/
       .p10k.zsh        ← Powerlevel10k theme → deployed to ~/.p10k.zsh
       plugins.txt      ← antidote plugin list → deployed to ~/.zsh_plugins.txt
       README.md        ← shell reference (keybindings, aliases, functions)
+```
+
+---
+
+## Applying Changes
+
+After editing any `.nix` file, rebuild to apply:
+
+**macOS**
+```bash
+darwin-rebuild switch --flake .#yourname-macbook
+```
+
+**Linux**
+```bash
+home-manager switch --flake .#yourname
+
+# If unfree packages are needed:
+NIXPKGS_ALLOW_UNFREE=1 home-manager switch --flake .#yourname --impure
+```
+
+**ARM Linux**
+```bash
+home-manager switch --flake .#yourname-arm
 ```
 
 ---

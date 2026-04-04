@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ── helpers ───────────────────────────────────────────────────────────────────
+info()  { printf '\033[1;34m==> \033[0m%s\n' "$*"; }
+ok()    { printf '\033[1;32m  ✓ \033[0m%s\n' "$*"; }
+die()   { printf '\033[1;31mERROR: \033[0m%s\n' "$*" >&2; exit 1; }
+
+# ── detect platform ───────────────────────────────────────────────────────────
+OS="$(uname -s)"
+ARCH="$(uname -m)"
+
+case "$OS" in
+  Darwin) PLATFORM="macos" ;;
+  Linux)  PLATFORM="linux" ;;
+  *)      die "Unsupported OS: $OS" ;;
+esac
+
+# ── read username from flake.nix ──────────────────────────────────────────────
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+USERNAME="$(grep -E '^\s+username\s*=' "$SCRIPT_DIR/flake.nix" | head -1 | sed 's/.*= *"\(.*\)".*/\1/')"
+[ -n "$USERNAME" ] || die "Could not parse username from flake.nix"
+
+info "Platform : $OS ($ARCH)"
+info "Username : $USERNAME"
+
+# ── ensure nix is available ───────────────────────────────────────────────────
+if ! command -v nix &>/dev/null; then
+  info "Nix not found — installing via Determinate Systems installer..."
+  curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+  # Source nix into the current shell so we can continue
+  # shellcheck disable=SC1091
+  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+  ok "Nix installed"
+else
+  ok "Nix already installed ($(nix --version))"
+fi
+
+cd "$SCRIPT_DIR"
+
+# ── macOS ─────────────────────────────────────────────────────────────────────
+if [ "$PLATFORM" = "macos" ]; then
+
+  if ! command -v brew &>/dev/null; then
+    info "Homebrew not found — installing..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    ok "Homebrew installed"
+  else
+    ok "Homebrew already installed"
+  fi
+
+  FLAKE_TARGET="${USERNAME}-macbook"
+  info "Building/switching darwin config: .#$FLAKE_TARGET"
+
+  if command -v darwin-rebuild &>/dev/null; then
+    darwin-rebuild switch --flake ".#$FLAKE_TARGET"
+  elif [ -x /run/current-system/sw/bin/darwin-rebuild ]; then
+    /run/current-system/sw/bin/darwin-rebuild switch --flake ".#$FLAKE_TARGET"
+  else
+    # First-time bootstrap: nix-darwin not yet installed
+    info "darwin-rebuild not found — bootstrapping nix-darwin..."
+    nix run nix-darwin -- switch --flake ".#$FLAKE_TARGET"
+  fi
+
+  ok "macOS config applied"
+
+# ── Linux ─────────────────────────────────────────────────────────────────────
+else
+
+  if [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then
+    FLAKE_TARGET="${USERNAME}-arm"
+  else
+    FLAKE_TARGET="${USERNAME}"
+  fi
+
+  info "Building/switching home-manager config: .#$FLAKE_TARGET"
+
+  if command -v home-manager &>/dev/null; then
+    NIXPKGS_ALLOW_UNFREE=1 home-manager switch --flake ".#$FLAKE_TARGET" --impure
+  else
+    info "home-manager not in PATH — using 'nix run' (first-time bootstrap)..."
+    NIXPKGS_ALLOW_UNFREE=1 nix run home-manager -- switch --flake ".#$FLAKE_TARGET" --impure
+  fi
+
+  ok "Linux config applied"
+
+  # Set zsh as default shell if it isn't already
+  if [ "$(basename "$SHELL")" != "zsh" ]; then
+    ZSH_PATH="$(command -v zsh 2>/dev/null || true)"
+    if [ -n "$ZSH_PATH" ]; then
+      info "Setting zsh as default shell..."
+      # Add to /etc/shells if not already there (required by chsh)
+      grep -qxF "$ZSH_PATH" /etc/shells || echo "$ZSH_PATH" | sudo tee -a /etc/shells >/dev/null
+      chsh -s "$ZSH_PATH"
+      ok "Default shell set to zsh (takes effect on next login)"
+    fi
+  fi
+fi
+
+ok "Done!"

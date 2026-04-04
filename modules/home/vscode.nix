@@ -32,16 +32,9 @@
       "workbench.activityBar.location"           = "hidden";
       "workbench.editor.enablePreview"           = true;
       "workbench.editor.enablePreviewFromQuickOpen" = true;
+      "workbench.editor.revealIfOpen"            = true;
 
       "terminal.integrated.inheritEnv" = true;
-      "terminal.integrated.profiles.osx" = {
-        "zsh" = {
-          "path" = "env";
-          "args" = [ "zsh" ];
-        };
-      };
-      "terminal.integrated.defaultProfile.osx" = "zsh";
-
       "claudeCode.preferredLocation" = "panel";
 
       "vim.easymotion"        = true;
