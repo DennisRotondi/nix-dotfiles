@@ -44,8 +44,8 @@
       "terminal.integrated.defaultProfile.osx" = "zsh";
       "terminal.integrated.profiles.linux" = {
         "zsh" = {
-          "path" = "env";
-          "args" = [ "zsh" ];
+          "path" = "/usr/bin/env";
+          "args" = [ "zsh" "-l" ];
         };
       };
       "terminal.integrated.defaultProfile.linux" = "zsh";
