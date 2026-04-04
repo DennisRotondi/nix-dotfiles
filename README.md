@@ -50,8 +50,6 @@ home-manager switch --flake .#yourname
 # If unfree packages are needed:
 NIXPKGS_ALLOW_UNFREE=1 home-manager switch --flake .#yourname --impure
 
-# Set zsh as default shell if needed
-chsh -s $(which zsh)
 ```
 
 > **Docker:** the CLI is installed via Nix but the daemon runs via systemd.
