@@ -31,6 +31,7 @@
       typeset -gU path fpath
 
       path=(
+        $HOME/.nix-profile/{,s}bin(N)
         $HOME/{,s}bin(N)
         $HOME/.local/{,s}bin(N)
         /opt/{homebrew,local}/{,s}bin(N)
