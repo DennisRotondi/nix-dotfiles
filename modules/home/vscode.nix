@@ -42,6 +42,13 @@
         };
       };
       "terminal.integrated.defaultProfile.osx" = "zsh";
+      "terminal.integrated.profiles.linux" = {
+        "zsh" = {
+          "path" = "env";
+          "args" = [ "zsh" ];
+        };
+      };
+      "terminal.integrated.defaultProfile.linux" = "zsh";
       "claudeCode.preferredLocation" = "panel";
 
       "vim.easymotion"        = true;
