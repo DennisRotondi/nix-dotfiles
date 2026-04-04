@@ -5,8 +5,8 @@
   homebrew = {
     enable = true;
     onActivation = {
-      autoUpdate = true;
-      upgrade = true;
+      autoUpdate = false;
+      upgrade = false;
       cleanup = "zap"; # Remove any brew/cask not listed here
     };
 

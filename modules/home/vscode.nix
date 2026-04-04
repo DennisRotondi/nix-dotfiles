@@ -35,9 +35,10 @@
       "workbench.editor.revealIfOpen"            = true;
 
       "terminal.integrated.inheritEnv" = true;
-      # zsh is configured via programs.zsh in home-manager
-      "terminal.integrated.defaultProfile.osx"   = "zsh";
-      "terminal.integrated.defaultProfile.linux" = "zsh";
+      "terminal.integrated.profiles.osx" = {
+        "zsh" = { "path" = "env"; "args" = [ "zsh" ]; };
+      };
+      "terminal.integrated.defaultProfile.osx" = "zsh";
       "claudeCode.preferredLocation" = "panel";
 
       "vim.easymotion"        = true;
