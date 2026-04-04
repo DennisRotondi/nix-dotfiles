@@ -84,12 +84,15 @@ else
 
   ok "Linux config applied"
 
-  # Suggest setting zsh as default shell if it isn't already
+  # Set zsh as default shell if it isn't already
   if [ "$(basename "$SHELL")" != "zsh" ]; then
     ZSH_PATH="$(command -v zsh 2>/dev/null || true)"
     if [ -n "$ZSH_PATH" ]; then
-      printf '\n\033[1;33mNote:\033[0m zsh is not your default shell. Run:\n'
-      printf '  chsh -s %s\n' "$ZSH_PATH"
+      info "Setting zsh as default shell..."
+      # Add to /etc/shells if not already there (required by chsh)
+      grep -qxF "$ZSH_PATH" /etc/shells || echo "$ZSH_PATH" | sudo tee -a /etc/shells >/dev/null
+      chsh -s "$ZSH_PATH"
+      ok "Default shell set to zsh (takes effect on next login)"
     fi
   fi
 fi

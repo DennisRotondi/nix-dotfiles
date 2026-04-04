@@ -35,25 +35,6 @@
       "workbench.editor.revealIfOpen"            = true;
 
       "terminal.integrated.inheritEnv" = true;
-      "terminal.integrated.env.osx" = {
-        "PATH" = "\${env:HOME}/.nix-profile/bin:/usr/bin:\${env:PATH}";
-      };
-      "terminal.integrated.env.linux" = {
-        "PATH" = "\${env:HOME}/.nix-profile/bin:/usr/bin:\${env:PATH}";
-      };
-      "terminal.integrated.profiles.osx" = {
-        "zsh" = {
-          "path" = "env";
-          "args" = [ "zsh" ];
-        };
-      };
-      "terminal.integrated.defaultProfile.osx" = "zsh";
-      "terminal.integrated.profiles.linux" = {
-        "zsh" = {
-          "path" = "zsh";
-        };
-      };
-      "terminal.integrated.defaultProfile.linux" = "zsh";
       "claudeCode.preferredLocation" = "panel";
 
       "vim.easymotion"        = true;
