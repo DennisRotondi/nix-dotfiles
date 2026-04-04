@@ -135,6 +135,13 @@
       # Homebrew (macOS only, no-op elsewhere)
       (( $+commands[brew] )) && eval "$(brew shellenv)"
 
+      # ── Miniconda ───────────────────────────────────────────────────────────
+      if [[ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]]; then
+        source "$HOME/miniconda3/etc/profile.d/conda.sh"
+      elif [[ -d "$HOME/miniconda3/bin" ]]; then
+        export PATH="$HOME/miniconda3/bin:$PATH"
+      fi
+
       # ── Powerlevel10k ───────────────────────────────────────────────────────
       [[ ! -f "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
 

@@ -32,6 +32,7 @@
       "workbench.activityBar.location"           = "hidden";
       "workbench.editor.enablePreview"           = true;
       "workbench.editor.enablePreviewFromQuickOpen" = true;
+      "workbench.editor.revealIfOpen"            = true;
 
       "terminal.integrated.inheritEnv" = true;
       "terminal.integrated.profiles.osx" = {
@@ -41,6 +42,12 @@
         };
       };
       "terminal.integrated.defaultProfile.osx" = "zsh";
+      "terminal.integrated.profiles.linux" = {
+        "zsh" = {
+          "path" = "zsh";
+        };
+      };
+      "terminal.integrated.defaultProfile.linux" = "zsh";
 
       "claudeCode.preferredLocation" = "panel";
 
