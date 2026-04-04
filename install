@@ -18,7 +18,7 @@ esac
 
 # ── read username from flake.nix ──────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-USERNAME="$(grep -E '^\s+username\s*=' "$SCRIPT_DIR/flake.nix" | head -1 | sed 's/.*=\s*"\(.*\)".*/\1/')"
+USERNAME="$(grep -E '^\s+username\s*=' "$SCRIPT_DIR/flake.nix" | head -1 | sed 's/.*= *"\(.*\)".*/\1/')"
 [ -n "$USERNAME" ] || die "Could not parse username from flake.nix"
 
 info "Platform : $OS ($ARCH)"
